@@ -1,6 +1,31 @@
-# Infra 01 : DNS
+# DNS
 
-[TOC]
+- [DNS](#dns)
+  * [Installation et configuration des VMS](#installation-et-configuration-des-vms)
+  * [Installation du DNS unbound](#installation-du-dns-unbound)
+    + [Configuration de unbound](#configuration-de-unbound)
+      - [Recursif](#recursif)
+      - [Transitaire](#transitaire)
+  * [Zone projet.intranet](#zone-projetintranet)
+    + [Installation de bind](#installation-de-bind)
+    + [Configuration de la zone](#configuration-de-la-zone)
+    + [Configuration de Unbound sur resolv](#configuration-de-unbound-sur-resolv)
+  * [Installation et configuration du dns secondaire](#installation-et-configuration-du-dns-secondaire)
+    + [Configuration de dns01](#configuration-de-dns01)
+    + [Configuration de dns02](#configuration-de-dns02)
+  * [Installation et configuration du reverse DNS sur ns01](#installation-et-configuration-du-reverse-dns-sur-ns01)
+  * [Installation et configuration du dns secondaire](#installation-et-configuration-du-dns-secondaire-1)
+  * [Configuration du serveur resolv](#configuration-du-serveur-resolv)
+- [Apache](#apache)
+  * [Installation et configuration des VMS](#installation-et-configuration-des-vms-1)
+  * [Configuration du dns](#configuration-du-dns)
+  * [Configuration apache](#configuration-apache)
+  * [Creation vhost par defaut](#creation-vhost-par-defaut)
+  * [Configuration des logs](#configuration-des-logs)
+  * [Controle acces](#controle-acces)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 
 ## Installation et configuration des VMS
 
@@ -133,7 +158,7 @@ root@resolv:~# dig +short @192.168.42.12 epsi.fr
 149.255.137.13
 ```
 
-## Zone 'projet.intranet'
+## Zone projet.intranet
 
 ### Installation de bind
 
@@ -431,7 +456,7 @@ root@NS02:~# dig @127.0.0.1 client02.projet.intranet +short
 
 ```
 
-## Configuration d'apache
+## Configuration apache
 
 On créé l'arborescence pour les sites :
 
@@ -493,7 +518,7 @@ root@client01:~# curl www.epsi.projet.intranet
 
 ```
 
-## Création d'un vhost par défaut
+## Creation vhost par defaut
 
 On modifie 000-default.conf en y rajoutant ce paramètre : 
 
@@ -563,7 +588,7 @@ Au format de log combined puis on recharge apache2 et on vérifie les logs :
 
 On peut observer que le temps en millisecondes est de 0, en le modifiant pour afficher les microsecondes, on peut observer que le temps est inférieur à 0.5ms et donc arrondi à 0 par apache à l'affichage des logs.
 
-## Controle d'accès
+## Controle acces
 
 On souhaite autorise client2 à accéder à admin mais client01 dans le ficher www_epsi.conf on ajoute :
 
