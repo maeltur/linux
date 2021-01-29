@@ -24,8 +24,6 @@
   * [Configuration des logs](#configuration-des-logs)
   * [Controle acces](#controle-acces)
 
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
 
 ## Installation et configuration des VMS
 
