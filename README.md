@@ -22,6 +22,7 @@
   * [Configuration apache](#configuration-apache)
   * [Creation vhost par defaut](#creation-vhost-par-defaut)
   * [Configuration des logs](#configuration-des-logs)
+    + [Configuration de la rotation des logs](#configuration-de-la-rotation-des-logs)
   * [Controle acces](#controle-acces)
 
 
@@ -585,6 +586,37 @@ Au format de log combined puis on recharge apache2 et on vérifie les logs :
 ```
 
 On peut observer que le temps en millisecondes est de 0, en le modifiant pour afficher les microsecondes, on peut observer que le temps est inférieur à 0.5ms et donc arrondi à 0 par apache à l'affichage des logs.
+
+### Configuration de la rotation des logs
+
+On modifie /etc/logrotate.d/apache2
+
+```bash
+/var/log/apache2/*.log {
+	daily
+	missingok
+->	rotate 366
+	compress
+	delaycompress
+	notifempty
+->	dateformat .%Y-%m-%d
+	create 640 root adm
+	sharedscripts
+	postrotate
+                if invoke-rc.d apache2 status > /dev/null 2>&1; then \
+                    invoke-rc.d apache2 reload > /dev/null 2>&1; \
+                fi;
+	endscript
+	prerotate
+		if [ -d /etc/logrotate.d/httpd-prerotate ]; then \
+			run-parts /etc/logrotate.d/httpd-prerotate; \
+		fi; \
+	endscript
+}
+
+```
+
+On ajoute ainsi l'horodatage et la rétention sur 366 jours des logs
 
 ## Controle acces
 
