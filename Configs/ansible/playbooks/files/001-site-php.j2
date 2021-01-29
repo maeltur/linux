@@ -1,0 +1,10 @@
+<VirtualHost *:80>
+        ServerName apache02.projet.intranet
+        DocumentRoot {{ direct_name | default('/var/www/site_php') }}
+        <Directory {{ direct_name | default('/war/www/site_php') }}>
+                Require all granted
+                DirectoryIndex index.php
+        </Directory>
+        CustomLog {{ log_folder | default('${APACHE_LOG_DIR}/access.log') }} {{ log_type | default('combined') }}
+</VirtualHost>
+

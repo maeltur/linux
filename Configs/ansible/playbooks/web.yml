@@ -1,0 +1,52 @@
+---
+- name: install pakcages and deploy ssh
+  hosts: apache2.projet.intranet
+  become: yes
+  become_method: sudo
+
+  tasks:
+  - name: ensure packages are  at the latest version
+    apt:
+      name: "{{ item }}"
+      state: latest
+    loop:
+      - apache2
+      - php
+      - mariadb-server
+  
+  - name: Create /var/www/site_php
+    file:
+      path: /var/www/site_php
+      state: directory
+      owner: www-data
+      group: www-data
+
+  - name: copy php site to /var/www/site_php 
+    copy:
+      src: /etc/ansible/playbooks/files/index.php
+      dest: /var/www/site_php
+      owner: www-data
+      group: www-data
+      mode: '0400'
+
+  - name:  Delete default conf
+    file:
+      path: /etc/apache2/sites-enabled/000-default.conf
+      state: absent
+    notify:
+    - Restart apache
+
+  - name: Copy whost
+    copy:
+      src: /etc/ansible/playbooks/files/001-site-php.conf
+      dest: /etc/apache2/sites-enabled/001-site-php.conf
+      owner: www-data
+      group: www-data
+    notify:
+    - Restart apache
+
+  handlers:
+  - name: Restart apache
+    service:
+      name: apache2
+      state: restarted 

@@ -1,0 +1,26 @@
+---
+- name: install pakcages and deploy ssh
+  hosts: web
+  become: yes
+  become_method: sudo
+
+  tasks: 
+
+  - name: create db01
+    community.mysql.mysql_db:
+      name: db01
+      state: present       
+  - name: Template a file to /etc/file.conf
+    template:
+      src: /etc/ansible/playbooks/files/001-site-php.j2
+      dest: /etc/apache2/sites-enabled/001-site-php.conf
+      owner: www-data
+      group: www-data      
+    notify:
+    - Restart apache
+
+  handlers:
+  - name: Restart apache
+    service:
+      name: apache2
+      state: restarted 

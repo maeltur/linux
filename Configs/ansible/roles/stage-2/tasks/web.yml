@@ -1,0 +1,22 @@
+- name: Install apache
+  apt:
+    name: apache2
+    state: present
+
+- name: Template a file to /etc/file.conf
+  template:
+    src: 001-site-php.j2
+    dest: /etc/apache2/sites-enabled/001-site-php.conf
+    owner: www-data
+    group: www-data
+  notify:
+  - Restart apache
+
+- name: Template a file to /etc/apache2/ports.conf
+  template:
+    src: ports.j2
+    dest: /etc/apache2/ports.conf
+    owner: www-data
+    group: www-data
+  notify:
+  - Restart apache

@@ -1,0 +1,28 @@
+---
+- name: install pakcages and deploy ssh
+  hosts: all
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: ensure packages are  at the latest version
+    apt:
+      name: "{{ item }}"
+      state: latest
+    loop:
+      - tcpdump
+      - vim
+      - strace
+      - sudo
+  - name: create user epsiadmin
+    user:
+      name: epsiadmin
+      state: present
+  - name: copy to /etc/sudoers.d/epsiadmin 
+    copy:
+      src: /etc/ansible/playbooks/files/epsiadmin
+      dest: /etc/sudoers.d/epsiadmin
+  - name: copy ssh key to user epsiadmin
+    authorized_key:
+      user: epsiadmin
+      state: present
+      key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZ3FZglVT/7h+jKOR6ANo88NJKXnhwjgyl4/3DbxOgF3G41UBh2eKi9CrbYJGlwtYDZxcgqnpZVltOIZmcHPxP4jxIaK3QJNvPA9ULUjbbjg7SrjUx569B6hzsMsIX2htku8VAiUMUWsrTMQUlixHNfothDijgI5j8u5DkBKVY6xTBaMOh9Jf3faRBZBI5CEoL1OA5pSMLzbDIKHcJP4khYufHUMvYY9TmSF3JN7hsGEw7aFJcWxahvXQXMn99+kHVLZDJ3cz8xylLzj81/4JtkYoNQAA0vrIEEuZWEqoUkzqwwLS3AvWIcgXkxqdOZw7iGnkoBqucJwjRVj+XfTFn root@client01.projet.intranet"

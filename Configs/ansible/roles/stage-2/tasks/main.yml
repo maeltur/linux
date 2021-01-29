@@ -1,0 +1,5 @@
+---
+# tasks file for stage-2
+
+- name: import web
+  include: web.yml
