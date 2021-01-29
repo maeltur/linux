@@ -1,0 +1,9 @@
+AuthType Basic
+AuthName "Restricted Files"
+# (Following line optional)
+AuthBasicProvider file
+AuthUserFile "/var/www/passwd/passwords"
+<RequireAny>
+	Require user salaire
+	Require ip 192.168.42.101
+</RequireAny>

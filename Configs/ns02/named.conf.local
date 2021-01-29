@@ -7,15 +7,13 @@
 //include "/etc/bind/zones.rfc1918";
 
 zone "projet.intranet" IN {
-	type master;
-	file "/etc/bind/db.projet.intranet";
-        allow-transfer { localhost; 192.168.42.11; };
-	notify yes;
+        type slave;
+        masters { 192.168.42.10; };
+        file "/etc/bind/db.projet.intranet";
 };
-zone "42.168.192.in-addr.arpa" IN { 
-	file "/etc/bind/db.reverse.projet.intranet";
-	type master;	
-        allow-transfer { localhost; 192.168.42.11; };
-        notify yes;
 
+zone "42.168.192.in-addr.arpa" IN {
+        type slave;
+        masters { 192.168.42.10; };
+        file "/etc/bind/db.reverse.projet.intranet";
 };
