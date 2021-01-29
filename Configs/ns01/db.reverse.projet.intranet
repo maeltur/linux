@@ -1,0 +1,14 @@
+$TTL 600
+@	IN	SOA	ns01.projet.intranet.	master.projet.intranet.(
+                          2020121103         ; serial
+                          7200           ; refresh
+                          3600          ; retry
+                          1209600           ; expire
+                          3600)          ; negative caching TTL
+
+@	IN	NS	ns01.projet.intranet.
+@	IN	NS	ns02.projet.intranet.
+1O	IN	PTR	ns01.projet.intranet.
+11	IN	PTR	ns02.projet.intranet.
+12	IN	PTR	resolv.projet.intranet.
+101	IN	PTR	client01.projet.intranet.
