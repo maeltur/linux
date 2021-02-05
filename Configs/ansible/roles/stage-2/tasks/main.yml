@@ -1,5 +1,16 @@
 ---
 # tasks file for stage-2
+- include_vars: "{{ inventory_hostname }}.yml"
+
+- name: Template a file to /etc/apache2/ports.conf
+  template:
+    src: ports.j2
+    dest: /etc/apache2/ports.conf
+    owner: www-data
+    group: www-data
+  notify:
+  - Restart apache
 
 - name: import web
   include: web.yml
+  loop: "{{ vhosts }}"

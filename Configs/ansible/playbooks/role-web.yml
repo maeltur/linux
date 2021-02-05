@@ -3,11 +3,6 @@
   hosts: apache2.projet.intranet
   become: yes
   become_method: sudo
-  vars:
-    ports:
-      - '80'
-      - '443'
-      - '8080'
   roles:
     - stage-2
     

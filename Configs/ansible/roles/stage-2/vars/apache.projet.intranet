@@ -1,0 +1,23 @@
+---
+#list of vars by host
+ports:
+  - '80'
+  - '443'
+  - '8080'
+vhosts:
+  - name: http
+    port: '80'
+    direct_name: '/var/www/site'
+    log_folder: '/var/log/apache/site'
+    log_type: 'combined'
+  - name: https
+    port: '443'
+    direct_name: '/var/www/site-https'
+    log_folder: '/var/log/apache/https'
+    log_type: 'combined'
+  - name: test
+    port: '8080'
+    direct_name: '/var/www/site-test'
+    log_folder: '/var/log/apache/test'
+    log_type: 'combined'
+

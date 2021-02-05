@@ -3,29 +3,21 @@
     name: apache2
     state: present
 
-- name: Template a file to /etc/file.conf
+- name: Template a file to /etc/apache2/sites-enabled/
   template:
     src: 001-site-php.j2
-    dest: /etc/apache2/sites-enabled/001-site-php.conf
+    dest: /etc/apache2/sites-enabled/001-site-{{ item.name }}.conf
     owner: www-data
     group: www-data
   notify:
   - Restart apache
 
-- name: Template a file to /etc/apache2/ports.conf
-  template:
-    src: ports.j2
-    dest: /etc/apache2/ports.conf
-    owner: www-data
-    group: www-data
-  notify:
-  - Restart apache
 - name: Ensure log_folder exist
   file:
-    path: '{{ log_folder }}'
+    path: '{{ item.log_folder }}'
     state: directory
     
 - name: Ensure site directory exist
   file:
-    path: '{{ direct_name }}'
+    path: '{{ item.direct_name }}'
     state: directory 
