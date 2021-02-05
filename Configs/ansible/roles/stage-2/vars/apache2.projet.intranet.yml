@@ -1,9 +1,5 @@
 ---
 #list of vars by host
-ports:
-  - '80'
-  - '443'
-  - '8080'
 vhosts:
   - name: http
     port: '80'

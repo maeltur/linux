@@ -3,8 +3,8 @@
 # /etc/apache2/sites-enabled/000-default.conf
 
   
-{% for line in ports %}
-listen {{ line }}
+{% for elem in vhosts %}
+listen {{ elem.port }}
 {% endfor %}
 
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
