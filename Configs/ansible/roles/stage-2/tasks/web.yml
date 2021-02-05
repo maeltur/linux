@@ -20,3 +20,12 @@
     group: www-data
   notify:
   - Restart apache
+- name: Ensure log_folder exist
+  file:
+    path: '{{ log_folder }}'
+    state: directory
+    
+- name: Ensure site directory exist
+  file:
+    path: '{{ direct_name }}'
+    state: directory 

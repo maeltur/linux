@@ -1,31 +1,42 @@
-Role Name
+STAGE-2
 =========
 
-A brief description of the role goes here.
+The purpose of this role is to deploy a ready-to-use apache web server
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+All needed packages should be installed by the role. 
+
+The only requirements is having ssh access to the host. You can check it with ansible -m ping  host
 
 Role Variables
 --------------
 
 A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
 Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
+    ---
+    - name: install pakcages and deploy ssh
+      hosts: apache2.projet.intranet
+      become: yes
+      become_method: sudo
+      
+      vars:
+        ports:
+          - '80'
+          - '443'
+          - '8080'
+        direct_name: '/var/www/site'
+        log_folder: '/var/log/apache/test'
+        log_type: 'combined'
+        
       roles:
-         - { role: username.rolename, x: 42 }
+        - stage-2
 
 License
 -------
